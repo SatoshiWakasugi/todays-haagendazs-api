@@ -1,12 +1,16 @@
 import express, { Request, Response } from 'express';
 import flavorRouter from './routes/flavor';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
+
+app.use(express.json());
 
 const PORT = 3000;
 
 app.get('/', (req: Request, res: Response) => {
-  console.log('"hello express');
   res.send('<h1>こんにちは</h1>');
 });
 
