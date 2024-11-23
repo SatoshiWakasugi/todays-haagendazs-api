@@ -10,7 +10,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.browser,
-        ...globals.node, // Node.jsのグローバル変数を追加
+        ...globals.node,
       },
     },
   },
@@ -18,8 +18,8 @@ export default [
   ...tseslint.configs.recommended,
   {
     rules: {
-      '@typescript-eslint/no-require-imports': 'off', // requireの使用を許可
-      'no-undef': 'off', // 未定義エラーを無効化
+      '@typescript-eslint/no-require-imports': 'off',
+      'no-undef': 'off',
     },
   },
   prettier,
