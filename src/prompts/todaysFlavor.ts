@@ -24,10 +24,10 @@ export const todaysFlavor = (
         "flavor": {
           "name": string,
           "url": string,
-          "image": string
+          "image": string,
+          "limited": boolean
         },
         "message": string,
-        "limited": boolean
       }
     `,
   };

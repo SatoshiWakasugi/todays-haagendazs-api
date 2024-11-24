@@ -45,7 +45,8 @@ const fetchGeminiWithRetry = async (products: unknown[], mood: string) => {
     try {
       const { response } = result;
       if (response) {
-        return response.text();
+        const data = JSON.parse(response.text());
+        return data;
       } else {
         throw new Error('Invalid response format');
       }
@@ -109,21 +110,20 @@ const fetchProducts = async () => {
   }
 };
 
-router.get('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response) => {
   try {
     if (!process.env.GEMINI_API_KEY) return;
 
-    const mood = req.query.mood as string | undefined;
+    const feeling = req.body.feeling as string | undefined;
 
     const products = await fetchProducts();
 
-    const flavor = await fetchGeminiWithRetry(products, mood || '普通の気分');
+    const response = await fetchGeminiWithRetry(
+      products,
+      feeling || '普通の気分',
+    );
 
-    console.log(flavor);
-
-    res.status(200).json({
-      flavor,
-    });
+    res.status(200).json(response);
   } catch (error) {
     console.error('Error occurred while generating:', error);
 
