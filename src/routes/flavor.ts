@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { todaysFlavor } from '@/prompts/todaysFlavor';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
+import { todaysFlavor } from '../prompts/todaysFlavor';
 
 const router = express.Router();
 
@@ -24,14 +24,14 @@ const fetchGeminiWithRetry = async (products: unknown[], mood: string) => {
   const generationConfig = {
     temperature: 1,
     topP: 0.95,
-    topK: 64,
+    topK: 1,
     maxOutputTokens: 8192,
     responseMimeType: 'application/json',
   };
 
-  const chatSession = model.startChat({
+  const result = await model.generateContent({
     generationConfig,
-    history: [
+    contents: [
       {
         role: 'user',
         parts: [todaysFlavor(products, mood)],
@@ -43,9 +43,9 @@ const fetchGeminiWithRetry = async (products: unknown[], mood: string) => {
 
   while (attempts < MAX_RETRIES) {
     try {
-      const response = await chatSession.sendMessage('');
-      if (response && response.response && response.response.text) {
-        return response.response.text();
+      const { response } = result;
+      if (response) {
+        return response.text();
       } else {
         throw new Error('Invalid response format');
       }
@@ -117,7 +117,9 @@ router.get('/', async (req: Request, res: Response) => {
 
     const products = await fetchProducts();
 
-    const flavor = await fetchGeminiWithRetry(products, mood || '');
+    const flavor = await fetchGeminiWithRetry(products, mood || '普通の気分');
+
+    console.log(flavor);
 
     res.status(200).json({
       flavor,

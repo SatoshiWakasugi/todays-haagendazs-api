@@ -5,6 +5,9 @@ import prettier from 'eslint-config-prettier';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  {
+    ignores: ['**/fixtures/**', '**/dist/**'],
+  },
   { files: ['**/*.{js,mjs,cjs,ts}'] },
   {
     languageOptions: {

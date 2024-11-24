@@ -1,4 +1,7 @@
-export const todaysFlavor = (products: unknown[], mood: string) => {
+export const todaysFlavor = (
+  products: unknown[],
+  mood: string = '普通の気分',
+) => {
   return {
     text: `
       あなたは優秀なAIであり、以下のアイスクリームフレーバーのリストを理解してください。
@@ -11,6 +14,7 @@ export const todaysFlavor = (products: unknown[], mood: string) => {
       - JSON形式でレスポンスを返してください。
       - フレーバーを選んだ理由を含めた感情に語りかける表現のメッセージを「message」フィールドに記載してください。
       - attribute が「通年商品以外」の場合は「limited」フィールドをtrueにしてください。
+      - image と url はドメイン（${process.env.TARGET_DOMAIN}）に続くパスです。結合してください。
 
       ### 入力リスト:
       ${JSON.stringify(products, null, 2)}

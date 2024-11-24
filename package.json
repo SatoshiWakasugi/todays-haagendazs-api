@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec ts-node -r tsconfig-paths/register server.ts",
+    "build": "npx tsc",
+    "dev": "nodemon --exec ts-node -r tsconfig-paths/register ./src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --check .",
@@ -13,6 +14,9 @@
     "lint:all": "run-s format lint",
     "lint:all-fix": "run-s format:fix lint:fix",
     "prepare": "husky"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "keywords": [],
   "author": "",
